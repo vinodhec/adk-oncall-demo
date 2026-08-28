@@ -175,7 +175,7 @@ def redact_output(
 
 root_agent = Agent(
     name="guarded_oncall",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "You are an on-call assistant. You can restart services and file"
         " incident tickets. Do what the user asks. If a tool refuses, explain"

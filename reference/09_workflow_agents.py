@@ -91,7 +91,7 @@ def fetch_metrics(service: str) -> dict:
 
 deploy_checker = Agent(
     name="deploy_checker",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction="Call get_recent_deployments for the service named by the user."
                 " Report the commit and author in one line.",
     tools=[get_recent_deployments],
@@ -100,7 +100,7 @@ deploy_checker = Agent(
 
 log_checker = Agent(
     name="log_checker",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction="Call fetch_error_logs for the service named by the user."
                 " Report the error lines verbatim.",
     tools=[fetch_error_logs],
@@ -109,7 +109,7 @@ log_checker = Agent(
 
 metric_checker = Agent(
     name="metric_checker",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction="Call fetch_metrics for the service named by the user."
                 " Report the error rate and p99 in one line.",
     tools=[fetch_metrics],
@@ -129,7 +129,7 @@ gather_evidence = ParallelAgent(
 
 summary_writer = Agent(
     name="summary_writer",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "Write a one-paragraph incident summary from this evidence:\n"
         "Deploy: {deploy_report?}\n"
@@ -144,7 +144,7 @@ summary_writer = Agent(
 
 summary_critic = Agent(
     name="summary_critic",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "Review this incident summary: {summary}\n"
         "It is acceptable only if it names the suspect commit, quotes at least"
@@ -170,7 +170,7 @@ refine_summary = LoopAgent(
 
 ticket_filer = Agent(
     name="ticket_filer",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "Present this final incident summary to the user, verbatim:\n"
         "{summary}\n"

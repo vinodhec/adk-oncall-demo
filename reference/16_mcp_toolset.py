@@ -152,7 +152,7 @@ def get_recent_deployments(service: str, tool_context: ToolContext) -> dict:
 
 root_agent = Agent(
     name="mcp_oncall",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "You are an on-call assistant.\n"
         "Deploy history comes from get_recent_deployments.\n"

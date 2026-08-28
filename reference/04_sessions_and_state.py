@@ -86,7 +86,7 @@ def note_suspect_commit(commit: str, tool_context: ToolContext) -> dict:
 
 root_agent = Agent(
     name="stateful_oncall",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "You are an on-call assistant."
         " The current suspect commit, if one has been recorded, is:"

@@ -84,7 +84,7 @@ def fetch_error_logs(service: str) -> dict:
 
 root_agent = Agent(
     name="event_oncall",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "You are an on-call assistant. When a service is reported broken, call"
         " get_recent_deployments and then fetch_error_logs, then explain what"

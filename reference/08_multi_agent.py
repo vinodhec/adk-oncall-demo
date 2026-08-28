@@ -114,7 +114,7 @@ def page_the_lead(reason: str, tool_context: ToolContext) -> dict:
 
 diagnostics_agent = Agent(
     name="diagnostics_agent",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     # This line is what the coordinator's model reads when routing. Rewrite it
     # and you change the routing without touching any other agent.
     description="Looks up recent deploys and error logs for a failing service.",
@@ -133,7 +133,7 @@ diagnostics_agent = Agent(
 
 ticketing_agent = Agent(
     name="ticketing_agent",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     description="Files incident tickets and returns the ticket ID.",
     instruction=(
         "You file incident tickets. Call create_incident_ticket with the"
@@ -153,7 +153,7 @@ ticketing_agent = Agent(
 
 comms_writer = Agent(
     name="comms_writer",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     description="Turns incident findings into a two-sentence status page update.",
     instruction=(
         "Rewrite the incident details you are given as a status page update"
@@ -165,7 +165,7 @@ comms_writer = Agent(
 
 root_agent = Agent(
     name="oncall_lead",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     description="Coordinates on-call triage: diagnoses first, then files a ticket.",
     instruction=(
         "You are the on-call lead. You route work; you do not diagnose yourself.\n"

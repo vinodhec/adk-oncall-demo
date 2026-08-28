@@ -172,7 +172,7 @@ def after_tool(
 
 root_agent = Agent(
     name="observed_oncall",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "You are an on-call assistant. Call get_recent_deployments when asked"
         " what shipped, and report the commit and author."

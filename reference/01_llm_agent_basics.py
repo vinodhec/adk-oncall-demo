@@ -9,7 +9,7 @@ WHAT THIS SHOWS
       name          Identifier. Must be a valid Python identifier. Other agents
                     transfer to this agent by this exact string, so it is
                     functional, not cosmetic.
-      model          Which model runs the loop, e.g. "gemini-2.5-flash".
+      model          Which model runs the loop, e.g. "gemini-3.6-flash".
       description    One line saying what this agent is for. Ignored when the
                      agent runs alone; read by a *parent* agent to decide
                      whether to route work here. See 08_multi_agent.py.
@@ -51,7 +51,7 @@ def get_recent_deployments(service: str) -> dict:
 
 root_agent = Agent(
     name="oncall_basics",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     description="Answers questions about what was recently deployed.",
     instruction=(
         "You are an on-call assistant. When the user asks what changed or what"

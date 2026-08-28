@@ -71,7 +71,7 @@ def get_recent_deployments(service: str) -> dict:
 
 root_agent = Agent(
     name="oncall_agent",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "You are an on-call assistant. Call get_recent_deployments when asked"
         " what shipped, and report the commit and the author."

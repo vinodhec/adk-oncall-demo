@@ -139,7 +139,7 @@ def create_incident_ticket(
 
 root_agent = Agent(
     name="oncall_tools",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "You are an on-call triage assistant.\n"
         "When a service is reported broken: call get_recent_deployments, then"

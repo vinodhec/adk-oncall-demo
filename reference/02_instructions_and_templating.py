@@ -55,7 +55,7 @@ from google.genai import types
 
 templated_agent = Agent(
     name="templated_oncall",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "You are the on-call assistant for the {service} service."
         " The current rotation owner is {oncall_owner}."
@@ -93,7 +93,7 @@ async def build_instruction(ctx: ReadonlyContext) -> str:
 
 provider_agent = Agent(
     name="provider_oncall",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=build_instruction,
 )
 
@@ -104,7 +104,7 @@ provider_agent = Agent(
 
 legacy_global_agent = Agent(
     name="legacy_global",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     # Only the ROOT agent's global_instruction takes effect. Setting it on a
     # sub-agent does nothing.
     global_instruction="Always answer in at most three sentences. Never speculate.",
@@ -143,7 +143,7 @@ legacy_global_agent = Agent(
 
 cached_agent = Agent(
     name="cached_oncall",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     # Sent literally. No {placeholder} substitution happens here.
     static_instruction=(
         "ON-CALL RUNBOOK\n"

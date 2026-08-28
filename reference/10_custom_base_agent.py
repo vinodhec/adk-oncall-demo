@@ -67,7 +67,7 @@ def fetch_metrics(service: str) -> dict:
 
 triage_agent = LlmAgent(
     name="triage_agent",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "Call fetch_metrics for the service the user named. Then reply with"
         " ONLY the integer error rate percentage, e.g. `12`. No other text."
@@ -78,7 +78,7 @@ triage_agent = LlmAgent(
 
 page_agent = LlmAgent(
     name="page_agent",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "This is a severe incident: the error rate is {error_rate}%."
         " Write a two-line page for the on-call lead: what is broken and how"
@@ -88,7 +88,7 @@ page_agent = LlmAgent(
 
 ticket_agent = LlmAgent(
     name="ticket_agent",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "This is a minor incident: the error rate is {error_rate}%."
         " Write a one-line ticket description. Do not page anyone."

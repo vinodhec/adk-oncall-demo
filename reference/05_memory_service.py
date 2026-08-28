@@ -77,7 +77,7 @@ async def search_past_incidents(query: str, tool_context: ToolContext) -> dict:
 
 root_agent = Agent(
     name="oncall_with_memory",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "You are an on-call assistant with access to past incidents.\n"
         "Before answering any question about whether something has happened"

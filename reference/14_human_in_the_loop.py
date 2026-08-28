@@ -125,7 +125,7 @@ def require_human_approval(
 
 root_agent = Agent(
     name="hitl_oncall",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "You are an on-call assistant that can restart services and roll back"
         " deploys.\n"
@@ -152,7 +152,7 @@ root_agent = Agent(
 
 confirming_agent = Agent(
     name="hitl_builtin",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "You are an on-call assistant that can restart services."
         " Restart what the user asks for."

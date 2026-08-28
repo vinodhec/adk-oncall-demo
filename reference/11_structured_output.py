@@ -109,7 +109,7 @@ class IncidentReport(BaseModel):
 
 investigator = Agent(
     name="investigator",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "Call get_recent_deployments and then fetch_error_logs for the service"
         " the user named. Report everything both tools returned, verbatim."
@@ -126,7 +126,7 @@ investigator = Agent(
 
 reporter = Agent(
     name="reporter",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "Turn these findings into an incident report.\n\n{raw_findings}\n\n"
         "Use only what is in the findings. Do not invent a commit hash."

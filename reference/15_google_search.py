@@ -7,7 +7,7 @@ WHAT THIS SHOWS
     in. That is why it needs no API key of its own and returns no dict.
 
         from google.adk.tools import google_search
-        Agent(model="gemini-2.5-flash", tools=[google_search])
+        Agent(model="gemini-3.6-flash", tools=[google_search])
 
     THE RULE THAT TRIPS PEOPLE UP
         The Gemini API does not allow a built-in search tool and ordinary
@@ -79,7 +79,7 @@ def get_vendor_for_service(service: str) -> dict:
 
 search_agent = Agent(
     name="web_search_agent",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     description=(
         "Searches the public web. Use for vendor status pages, CVEs, error"
         " messages from third-party libraries - anything not in our own"
@@ -100,7 +100,7 @@ search_agent = Agent(
 
 root_agent = Agent(
     name="oncall_with_search",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=(
         "You are an on-call assistant.\n"
         "For anything about our own services, call get_vendor_for_service.\n"
