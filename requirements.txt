@@ -1,1 +1,7 @@
 google-adk
+
+# Optional extras, only needed by some of the files in reference/:
+#   mcp             reference/16_mcp_toolset.py
+#   google-adk[db]  DatabaseSessionService, see reference/04_sessions_and_state.py
+# mcp
+# google-adk[db]

@@ -44,6 +44,27 @@ Two consequences worth pointing at during the demo:
 - **Docstrings are the API.** The docstring and type hints are the only description the model gets, so they are prompt text, not documentation.
 - **Descriptions drive routing.** In `oncall_team`, the coordinator picks a sub-agent by reading each one's `description` field. Change the wording, change the routing.
 
+## Reference examples
+
+The demo is deliberately small. [`reference/`](reference/) is the other half:
+one self-contained file per ADK concept, in this same on-call domain, for when
+someone asks a question the demo does not answer.
+
+| | |
+| --- | --- |
+| Agents & prompts | [basics](reference/01_llm_agent_basics.py), [instructions & templating](reference/02_instructions_and_templating.py) |
+| Tools | [function tools](reference/03_function_tools.py), [Google Search](reference/15_google_search.py), [MCP](reference/16_mcp_toolset.py) |
+| Memory | [sessions & state](reference/04_sessions_and_state.py), [memory service](reference/05_memory_service.py) |
+| Control | [callbacks](reference/06_callbacks.py), [guardrails](reference/07_guardrails.py), [human in the loop](reference/14_human_in_the_loop.py) |
+| Composition | [multi-agent](reference/08_multi_agent.py), [workflow agents](reference/09_workflow_agents.py), [custom BaseAgent](reference/10_custom_base_agent.py) |
+| Output & runtime | [structured output](reference/11_structured_output.py), [streaming & events](reference/12_streaming_and_events.py), [programmatic Runner](reference/13_programmatic_runner.py) |
+
+See [`reference/README.md`](reference/README.md) for the full index and the
+gotchas that cost an afternoon rather than a minute.
+
+`adk web` does not pick these up — they are reading material, run individually
+with `python reference/<file>.py`.
+
 ## Licence
 
 MIT
