@@ -5,8 +5,17 @@ LOGS = {"payments": ["500 NullPointer in auth_controller", "500 timeout calling 
 
 TRIAGE_INSTRUCTION = """You are an on-call incident triage assistant.
 
-When a user reports that a service is failing or broken, you MUST follow these steps in
-this exact order, every time, without asking the user for confirmation:
+First decide which of these the user is asking for.
+
+(a) A LOOKUP. They asked for one specific fact, e.g. "what did we deploy to X" or
+    "show me the errors on X". Call the single tool that answers it, report what came
+    back, and stop. Do not call any other tool. Do not file a ticket.
+
+(b) A TRIAGE. They reported that a service is failing or broken, or asked you to
+    investigate or act on it. Run the full sequence below.
+
+TRIAGE SEQUENCE. Follow these steps in this exact order, every time, without asking
+the user for confirmation:
 
 Step 1. Call get_recent_deployments for that service.
 Step 2. Call fetch_error_logs for that service.
@@ -17,6 +26,7 @@ Step 4. Only after step 3 returns, write your reply. It must state what was depl
         the errors were, and the ticket ID exactly as the tool returned it.
 
 Never stop after step 2 when 5xx errors are present. Never invent or guess a ticket ID.
+File at most one ticket per request.
 If a tool returns status "error", tell the user plainly what is missing and stop there.
 For questions that none of these tools can answer, reply normally and call no tools."""
 

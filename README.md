@@ -21,7 +21,13 @@ Get a free API key at [aistudio.google.com](https://aistudio.google.com).
 adk web
 ```
 
-Run it from the repo root, open the URL it prints, and pick either `oncall_agent` (single agent) or `oncall_team` (a `SequentialAgent` pipeline) from the dropdown in the UI.
+Run it from the repo root, open the URL it prints, and pick an app from the dropdown in the UI:
+
+| App | Shape | What it is for |
+| --- | --- | --- |
+| `oncall_agent` | one `Agent`, three tools | The live demo. One agent choosing between tools. |
+| `oncall_team` | `oncall_lead` + two sub-agents, LLM-routed | The multi-agent clip. Routing shows up as `transfer_to_agent` in the event panel. |
+| `oncall_pipeline` | `SequentialAgent` over shared session state | The deterministic alternative, and the shared-state example below. |
 
 ## Try these prompts
 
@@ -31,9 +37,11 @@ Run it from the repo root, open the URL it prints, and pick either `oncall_agent
 | `Show me recent errors on payments` | A different tool — `fetch_error_logs` |
 | `What did we deploy to billing?` | The error path — no records for `billing`, so the tool returns `status: "error"` and the agent says so instead of inventing an answer |
 | `Payments is failing in prod - check if we deployed recently, look at the error logs, and file a high-severity ticket if it's broken` | All three tools, chained in order — deploys, logs, then the ticket |
-| `Who's on call this weekend?` | No tool at all — nothing in the toolset answers this. In `oncall_agent` the model just replies; in `oncall_team` both pipeline steps answer `SKIPPED` |
+| `Who's on call this weekend?` | No tool at all — nothing in the toolset answers this. In `oncall_agent` and `oncall_team` the model just replies; in `oncall_pipeline` both steps answer `SKIPPED` |
 
-In `oncall_team`, that fourth prompt runs the whole pipeline in a single turn: `diagnostics_agent` looks things up, then `ticketing_agent` files the ticket without being told the service or the commit hash a second time.
+In `oncall_agent`, the first three prompts each fire exactly one tool and the fourth fires all three — the instruction gates lookups away from the triage sequence, so a plain "show me the errors" does not file a ticket.
+
+In `oncall_team`, that fourth prompt produces three `transfer_to_agent` hops: lead to `diagnostics_agent`, back to the lead, then out to `ticketing_agent`. In `oncall_pipeline` the same prompt runs both steps in fixed order, and `ticketing_agent` picks the service and commit hash out of session state rather than being told them again.
 
 ## How it works
 
@@ -44,9 +52,9 @@ Two consequences worth pointing at during the demo:
 - **Docstrings are the API.** The docstring and type hints are the only description the model gets, so they are prompt text, not documentation.
 - **Descriptions drive routing.** When an LLM agent has sub-agents, it picks one by reading each one's `description` field. Change the wording, change the routing.
 
-## Shared state in `oncall_team`
+## Shared state in `oncall_pipeline`
 
-`oncall_team` is a `SequentialAgent`: it runs `diagnostics_agent` and then `ticketing_agent`, in that order, on every message. The two never talk to each other directly. They share a dict instead — ADK's session state.
+`oncall_pipeline` is a `SequentialAgent`: it runs `diagnostics_agent` and then `ticketing_agent`, in that order, on every message. The two never talk to each other directly. They share a dict instead — ADK's session state.
 
 A tool writes to state by taking a `tool_context: ToolContext` parameter. ADK injects it and hides it from the model, so it never shows up in the function schema:
 
@@ -68,7 +76,9 @@ That is how `ticketing_agent` knows the commit hash is `a3f19c2` without it ever
 Two things this buys you beyond passing data around:
 
 - **Ordering enforced in code, not prose.** `create_incident_ticket` returns an error if `triage_errors` is missing. Ask an LLM-routed version of this team to "skip diagnostics and just file the ticket" and it will happily try; the state check is what stops it, and the model then goes and runs diagnostics before filing.
-- **One turn instead of two.** An LLM coordinator delegating via `transfer_to_agent` hands control to the sub-agent and does not reliably get it back, so triage can stall after the diagnostics step. `SequentialAgent` guarantees both steps run. The tradeoff is that both steps run on *every* message, which is why each instruction has a `SKIPPED` escape hatch.
+- **One turn instead of two.** `SequentialAgent` guarantees both steps run, with no hand-off latency. The tradeoff is that both steps run on *every* message, which is why each instruction has a `SKIPPED` escape hatch.
+
+Getting control back after a transfer is the thing to be careful about in the LLM-routed `oncall_team`. It works there because `diagnostics_agent` is told, in its instruction, to transfer back to `oncall_lead` when it is done, and carries `disallow_transfer_to_peers=True` so it cannot hand sideways to `ticketing_agent` behind the lead's back. Drop either and triage can stall after the diagnostics step.
 
 ## Reference examples
 
