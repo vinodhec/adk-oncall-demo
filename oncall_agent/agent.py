@@ -59,7 +59,7 @@ def create_incident_ticket(service: str, summary: str, severity: str) -> dict:
 
 root_agent = Agent(
     name="oncall_agent",
-    model="gemini-2.5-flash",
+    model="gemini-3.6-flash",
     instruction=TRIAGE_INSTRUCTION,
     tools=[get_recent_deployments, fetch_error_logs, create_incident_ticket],
 )
